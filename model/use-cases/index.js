@@ -67,3 +67,29 @@ module.exports.deleteQuote = async (id) => {
 }
 
 
+
+
+module.exports.updateQuote = async (data, id) => {
+
+    try {
+
+        let updatedData = await quoteTable.update(data,
+            {
+                where: {
+                    id
+                }
+            });
+        if (updatedData[0] == 1) {
+            return updatedData
+        } else {
+            return null
+        }
+
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+
+
+}
+

@@ -1,11 +1,6 @@
-var { getQuote, insertQuote ,deleteQuote} = require("../model/use-cases");
+var { getQuote, insertQuote, deleteQuote, updateQuote } = require("../model/use-cases");
 
-var errorObj = {
-    httpCode: 404,
-    message: 'NOT_FOUND',
-    description: 'The resource referenced by request does not exists.',
-    details: 'Something went wrong!'
-}
+var {errorObj} = require("../config/errors.json");
 
 module.exports.get = async (req, res) => {
     try {
@@ -54,12 +49,37 @@ module.exports.insert = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     try {
-        let id = req.query.id ;
+        let id = req.query.id;
         let deleteData = await deleteQuote(id);
 
         if (deleteData) {
             res.status(200);
             res.send("Quote deleted successfully")
+        } else {
+            res.status(404);
+            res.send(errorObj)
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(404);
+        res.send(error)
+    }
+}
+
+
+module.exports.update = async (req, res) => {
+    try {
+        let id = req.body.id;
+        let data = {};
+        req.body.hasOwnProperty("author") ? data.author = req.body.author : "";
+        req.body.hasOwnProperty("quote") ? data.quote = req.body.quote : "";
+        req.body.hasOwnProperty("tag") ? data.tag = req.body.tag : "";
+
+        let updateData = await updateQuote(data, id);
+
+        if (updateData) {
+            res.status(200);
+            res.send(updateData[0] + "  Quote Updated successfully")
         } else {
             res.status(404);
             res.send(errorObj)

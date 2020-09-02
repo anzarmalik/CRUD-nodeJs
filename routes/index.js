@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var { get, insert, delete : deleteData} = require("../controller");
+var { get, insert, delete: deleteData ,update } = require("../controller");
 
 // get data
 router.get('/', get);
@@ -10,6 +10,10 @@ router.post('/', insert);
 
 // delete data
 router.delete('/', deleteData);
+
+// update data
+router.put('/', update);
+
 
 
 
