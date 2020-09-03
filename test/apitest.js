@@ -3,7 +3,7 @@ let chaiHttp = require("chai-http");
 var should = chai.should();
 chai.use(chaiHttp);
 let server = require("../app");
-
+let QuoteTable = require("../model/entities/quote")
 
 
 // parent block
@@ -24,9 +24,9 @@ describe("Quotes", () => {
     describe('/POST', () => {
         it('it should  POST a quote author and tag', (done) => {
             let obj = {
-                quote: "To hurt human heart is to hurt grace of God",
-                author: "Nizamudin auwliya",
-                tag: "#humanity"
+                quote: "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.",
+                author: "Jalludin Rumi",
+                tag: "#Wisdom"
             }
             chai.request(server)
                 .post('/')
@@ -49,31 +49,50 @@ describe("Quotes", () => {
     describe('/PUT', () => {
         it('it should UPDATE a quote or author or tag or all three of them on a given  id', (done) => {
             let obj = {
-                quote: "To hurt human heart is to hurt grace of God",
-                author: "Nizamudin auwliya",
-                tag: "#humanity",
-                id: 13
+                quote: "Raise your words, not voice. It is rain that grows flowers, not thunder.",
+                author: "Rumi",
+                tag: "#Peace",
             }
-            chai.request(server)
-                .put('/')
-                .send(obj)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    done();
-                });
-        });
+            QuoteTable.create(obj).then((result) => {
+                    chai.request(server)
+                        .put('/')
+                        .send({
+                            quote: "Raise your words, not voice",
+                            author: "Rumi",
+                            tag: "#Love",
+                            id: result.id
+                        })
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            done();
+                        });
+                
+            }).catch((err) => {
+                console.log(err)
+            });  
+        })
+
     });
 
 
-    describe('/DELETE/:id', () => {
+    describe('/DELETE/?id', () => {
         it('it should delete a row on a given  id', (done) => {
-            chai.request(server)
-                .delete("/?id=23")
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    done();
-                });
+            let obj =({
+                quote: "Sell your cleverness and buy bewilderment.",
+                author: "Mahatma Gandhi",
+                tag: "#people",
+            });
+            QuoteTable.create(obj).then((result) => {
+
+                chai.request(server)
+                    .delete("/?id=" + result.id)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        done();
+                    });
+            });
+
         });
     });
 
