@@ -3,7 +3,7 @@ const chaiHttp = require('chai-http');
 
 const should = chai.should();
 chai.use(chaiHttp);
-const server = require('../app');
+const server = require('../config/index');
 const QuoteTable = require('../model/entities/quote');
 
 // parent block

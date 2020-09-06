@@ -1,6 +1,9 @@
 const quoteTable = require('../entities/quote');
 
-module.exports.getQuote = async () => {
+
+
+
+const getQuote = async () => {
   try {
     const getData = await quoteTable.findAll({
       raw: true,
@@ -15,7 +18,8 @@ module.exports.getQuote = async () => {
   }
 };
 
-module.exports.insertQuote = async (data) => {
+
+const insertQuote = async (data) => {
   try {
     const insertedData = await quoteTable.create(data);
     if (insertedData) {
@@ -23,12 +27,12 @@ module.exports.insertQuote = async (data) => {
     }
     return null;
   } catch (error) {
-    console.log(error);
+    console.log(); 
     return null;
   }
 };
 
-module.exports.deleteQuote = async (id) => {
+const deleteQuote = async (id) => {
   try {
     const deletedData = await quoteTable.destroy({
       where: {
@@ -45,7 +49,7 @@ module.exports.deleteQuote = async (id) => {
   }
 };
 
-module.exports.updateQuote = async (data, id) => {
+const updateQuote = async (data, id) => {
   try {
     const updatedData = await quoteTable.update(data,
       {
@@ -62,3 +66,12 @@ module.exports.updateQuote = async (data, id) => {
     return null;
   }
 };
+
+
+
+module.exports = {
+  getQuote,
+  insertQuote,
+  deleteQuote,
+  updateQuote
+}
