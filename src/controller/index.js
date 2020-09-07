@@ -1,6 +1,7 @@
 const {
   getQuote, insertQuote, deleteQuote, updateQuote,
 } = require('../model/use-cases');
+const { logger } = require('../config/logger');
 
 const { errorObj } = require('../config/errors.json');
 
@@ -15,7 +16,7 @@ module.exports.get = async (req, res) => {
       res.send(errorObj);
     }
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     res.status(404);
     res.send(error);
   }
@@ -38,7 +39,7 @@ module.exports.insert = async (req, res) => {
       res.send(errorObj);
     }
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     res.status(404);
     res.send(error);
   }
@@ -57,7 +58,7 @@ module.exports.delete = async (req, res) => {
       res.send(errorObj);
     }
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     res.status(404);
     res.send(error);
   }
@@ -81,7 +82,7 @@ module.exports.update = async (req, res) => {
       res.send(errorObj);
     }
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     res.status(404);
     res.send(error);
   }

@@ -1,7 +1,5 @@
 const quoteTable = require('../entities/quote');
-
-
-
+const { logger } = require('../../config/logger');
 
 const getQuote = async () => {
   try {
@@ -13,11 +11,10 @@ const getQuote = async () => {
     }
     return {};
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     return {};
   }
 };
-
 
 const insertQuote = async (data) => {
   try {
@@ -27,7 +24,7 @@ const insertQuote = async (data) => {
     }
     return null;
   } catch (error) {
-    console.log(); 
+    logger.info(error);
     return null;
   }
 };
@@ -44,7 +41,7 @@ const deleteQuote = async (id) => {
     }
     return null;
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     return null;
   }
 };
@@ -62,16 +59,14 @@ const updateQuote = async (data, id) => {
     }
     return null;
   } catch (error) {
-    console.log(error);
+    logger.info(error);
     return null;
   }
 };
-
-
 
 module.exports = {
   getQuote,
   insertQuote,
   deleteQuote,
-  updateQuote
-}
+  updateQuote,
+};
