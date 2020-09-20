@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../../config/db');
+const database = require('../../config/db');
 
-const quotes = sequelize.define('quote', {
+const quotes = database.getInstance().define('quote', {
   id: {
     type: Sequelize.BIGINT,
     primaryKey: true,

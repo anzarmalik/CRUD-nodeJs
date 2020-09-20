@@ -1,7 +1,11 @@
 require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const database = require('./db');
+
+database.connect();
 const indexRouter = require('../routes/index');
 const usersRouter = require('../routes/users');
 
@@ -18,10 +22,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  logger.info(`Server listening at http://localhost:${port}`);
-});
-
-module.exports = app;
+module.exports = { app, logger };
