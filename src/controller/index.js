@@ -16,7 +16,7 @@ module.exports.get = async (req, res) => {
       res.send(errorObj);
     }
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     res.status(404);
     res.send(error);
   }
@@ -39,7 +39,7 @@ module.exports.insert = async (req, res) => {
       res.send(errorObj);
     }
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     res.status(404);
     res.send(error);
   }
@@ -58,7 +58,7 @@ module.exports.delete = async (req, res) => {
       res.send(errorObj);
     }
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     res.status(404);
     res.send(error);
   }
@@ -82,7 +82,7 @@ module.exports.update = async (req, res) => {
       res.send(errorObj);
     }
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     res.status(404);
     res.send(error);
   }

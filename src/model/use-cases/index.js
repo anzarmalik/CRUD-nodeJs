@@ -11,7 +11,7 @@ const getQuote = async () => {
     }
     return {};
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     return {};
   }
 };
@@ -24,7 +24,7 @@ const insertQuote = async (data) => {
     }
     return null;
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     return null;
   }
 };
@@ -41,7 +41,7 @@ const deleteQuote = async (id) => {
     }
     return null;
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     return null;
   }
 };
@@ -59,7 +59,7 @@ const updateQuote = async (data, id) => {
     }
     return null;
   } catch (error) {
-    logger.info(error);
+    logger.error(error);
     return null;
   }
 };
