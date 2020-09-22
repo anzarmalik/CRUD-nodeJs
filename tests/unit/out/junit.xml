@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="0" time="5.535">
-  <testsuite name="User Case tests" errors="0" failures="0" skipped="0" timestamp="2020-09-20T17:31:33" time="5.162" tests="4">
-    <testcase classname="User Case tests Getting quote details" name="User Case tests Getting quote details" time="0.015">
+<testsuites name="jest tests" tests="4" failures="0" time="4.404">
+  <testsuite name="User Case tests" errors="0" failures="0" skipped="0" timestamp="2020-09-22T08:09:36" time="4.04" tests="4">
+    <testcase classname="User Case tests Getting quote details" name="User Case tests Getting quote details" time="0.014">
     </testcase>
     <testcase classname="User Case tests Inserting quote details" name="User Case tests Inserting quote details" time="0.003">
     </testcase>
     <testcase classname="User Case tests Updating quote details" name="User Case tests Updating quote details" time="0.002">
     </testcase>
-    <testcase classname="User Case tests Deleting quote details" name="User Case tests Deleting quote details" time="0.045">
+    <testcase classname="User Case tests Deleting quote details" name="User Case tests Deleting quote details" time="0.021">
     </testcase>
   </testsuite>
 </testsuites>

@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const {
-  get, insert, delete: deleteData, update,
+  get, insert, destroy: deleteData, update,
 } = require('../controller');
 
 // get data

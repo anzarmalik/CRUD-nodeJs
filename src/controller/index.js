@@ -5,24 +5,24 @@ const { logger } = require('../config/logger');
 
 const { errorObj } = require('../config/errors.json');
 
-module.exports.get = async (req, res) => {
+const get = async (req, res) => {
   try {
     const getData = await getQuote();
     if (getData.length > 0) {
       res.status(200);
       res.send(getData);
     } else {
-      res.status(404);
+      res.status(500);
       res.send(errorObj);
     }
   } catch (error) {
     logger.error(error);
-    res.status(404);
+    res.status(500);
     res.send(error);
   }
 };
 
-module.exports.insert = async (req, res) => {
+const insert = async (req, res) => {
   try {
     const data = {
       quote: req.body.quote || ' qoute missing! ',
@@ -35,17 +35,17 @@ module.exports.insert = async (req, res) => {
       res.status(200);
       res.send(insertData);
     } else {
-      res.status(404);
+      res.status(500);
       res.send(errorObj);
     }
   } catch (error) {
     logger.error(error);
-    res.status(404);
+    res.status(500);
     res.send(error);
   }
 };
 
-module.exports.delete = async (req, res) => {
+const destroy = async (req, res) => {
   try {
     const { id } = req.query;
     const deleteData = await deleteQuote(id);
@@ -54,17 +54,17 @@ module.exports.delete = async (req, res) => {
       res.status(200);
       res.send('Quote deleted successfully');
     } else {
-      res.status(404);
+      res.status(500);
       res.send(errorObj);
     }
   } catch (error) {
     logger.error(error);
-    res.status(404);
+    res.status(500);
     res.send(error);
   }
 };
 
-module.exports.update = async (req, res) => {
+const update = async (req, res) => {
   try {
     const { id } = req.body;
     const data = {};
@@ -78,12 +78,16 @@ module.exports.update = async (req, res) => {
       res.status(200);
       res.send(`${updateData[0]}  Quote Updated successfully`);
     } else {
-      res.status(404);
+      res.status(500);
       res.send(errorObj);
     }
   } catch (error) {
     logger.error(error);
-    res.status(404);
+    res.status(500);
     res.send(error);
   }
+};
+
+module.exports = {
+  get, insert, destroy, update,
 };

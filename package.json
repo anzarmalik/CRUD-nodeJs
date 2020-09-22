@@ -8,6 +8,7 @@
     "start": "node ./src/index.js",
     "api": "mocha ./src/test/apiTest/apitest.js",
     "test:unit": "jest --config tests/unit/jest.config.js",
+    "test:integration": "jest --config tests/integration/jest.config.js",
     "test:acceptance": "jest --config tests/unit/jest.config.js",
     "test": "npm run test:unit -- --watchAll && npm run test:acceptance -- --watchAll"
   },
@@ -25,13 +26,10 @@
     "sequelize": "^6.3.4"
   },
   "devDependencies": {
-    "chai": "4.2.0",
-    "chai-http": "4.2.1",
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "jest": "^26.4.2",
-    "mocha": "5.2.0",
     "supertest": "^4.0.2"
   }
 }
