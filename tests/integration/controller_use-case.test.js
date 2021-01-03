@@ -1,5 +1,6 @@
 const {
-  get, insert, destroy, update,
+  // get, insert, destroy, update,
+  getAll, getById, insertDataInProduct, insertDataInCart, destroy,
 } = require('../../src/controller');
 const fixtures = require('../fixtures/controller_use-case.integration');
 
@@ -12,7 +13,7 @@ describe('Controllers tests', () => {
     await fixtures.remove();
   });
 
-  it('Getting quote details from controllers', async () => {
+  it('Getting product details from controllers', async () => {
     const res = {
       send(param) {
         expect(global.getFindAll).toBe(param);
@@ -21,15 +22,32 @@ describe('Controllers tests', () => {
         expect(200).toBe(code);
       },
     };
-    await get({}, res);
+    await getAll({}, res);
   });
 
-  it('Inserting quote details from controllers', async () => {
+  it('Getting cart details from controllers', async () => {
+    const req = {
+      body: { productId: 1 },
+      user: { id: 1 },
+    };
+    const res = {
+      send(param) {
+        expect(global.getFindAllCart).toBe(param);
+      },
+      status(code) {
+        expect(200).toBe(code);
+      },
+    };
+    await getById(req, res);
+  });
+
+  it('Inserting product details from controllers', async () => {
     const req = {
       body: {
-        author: 'SOME_AUTHOR',
-        tag: 'SOME_TAG',
-        quote: 'SOME_QUOTE',
+        name: 'crown camera',
+        description: 'It is great camera',
+        make: '2021-06-09',
+        price: 908888,
       },
     };
     const res = {
@@ -40,41 +58,40 @@ describe('Controllers tests', () => {
         expect(200).toBe(code);
       },
     };
-    await insert(req, res);
+    await insertDataInProduct(req, res);
   });
 
-  it('Deleting quote details from controllers', async () => {
+  // it('Inserting cart details from controllers', async () => {
+  //   const req = {
+  //     body: {
+  //       productId: '1',
+  //     },
+  //     user: { id: 1 },
+  //   };
+  //   const res = {
+  //     send(param) {
+  //       expect(global.getCreateCart).toBe(param);
+  //     },
+  //     status(code) {
+  //       expect(200).toBe(code);
+  //     },
+  //   };
+  //   await insertDataInCart(req, res);
+  // });
+
+  it('Deleting cart details from controllers', async () => {
     const req = {
-      query: { id: 1 },
+      query: { productId: 1 },
+      user: { id: 1 },
     };
     const res = {
       send(param) {
-        expect('Quote deleted successfully').toBe(param);
+        expect('Data deleted successfully').toBe(param);
       },
       status(code) {
         expect(200).toBe(code);
       },
     };
     await destroy(req, res);
-  });
-
-  it('Updating quote details from controllers', async () => {
-    const req = {
-      body: {
-        id: 1,
-        author: 'SOME_AUTHOR',
-        tag: 'SOME_TAG',
-        quote: 'SOME_QUOTE',
-      },
-    };
-    const res = {
-      send(param) {
-        expect('1  Quote Updated successfully').toBe(param);
-      },
-      status(code) {
-        expect(200).toBe(code);
-      },
-    };
-    await update(req, res);
   });
 });

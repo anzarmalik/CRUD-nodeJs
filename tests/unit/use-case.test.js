@@ -1,9 +1,9 @@
 const {
-  getQuote, insertQuote, updateQuote, deleteQuote,
+  getProductData, getCartByID, insertProductData, deleteCartData, insertProductInCart,
 } = require('../../src/model/use-cases');
 const fixtures = require('../fixtures/use-case.unit.js');
 
-describe('User Case tests', () => {
+describe('Use Case tests', () => {
   beforeAll(async () => {
     await fixtures.add();
   });
@@ -12,23 +12,28 @@ describe('User Case tests', () => {
     await fixtures.remove();
   });
 
-  it('Getting quote details', async () => {
-    const data = await getQuote();
+  it('Getting product details', async () => {
+    const data = await getProductData();
     expect(global.getFindAll).toEqual(data);
   });
 
-  it('Inserting quote details', async () => {
-    const data = await insertQuote();
+  it('Getting cart details', async () => {
+    const data = await getCartByID();
+    expect(global.getFindAllCart).toEqual(data);
+  });
+
+  it('Inserting product details', async () => {
+    const data = await insertProductData();
     expect(global.getCreate).toEqual(data);
   });
 
-  it('Updating quote details', async () => {
-    const data = await updateQuote();
-    expect(global.getUpdate).toEqual(data);
-  });
+  // it('Inserting cart details', async () => {
+  //   const data = await insertProductInCart();
+  //   expect(global.getCreateCart).toEqual(data);
+  // });
 
-  it('Deleting quote details', async () => {
-    const data = await deleteQuote();
+  it('Deleting cart details', async () => {
+    const data = await deleteCartData();
     expect(global.getDelete).toEqual(data);
   });
 });

@@ -1,12 +1,13 @@
-# Simple CRUD Node.js
+# Simple & Basic Ecommerce in Node.js
 
 
-This is a very basic example of CRUD in Node.js and express framework .
-I have applied REST API recommendations and MVC architecture .
-I have used mySql and Sequelize ORM  . 
-I have written basic test cases using Js testing framework Mocha and chai library .
+This is a very basic example of Ecommerce CRUD in Node.js and express framework .
+I have applied REST based API recommendations and custom MVC architecture .
+I have applied Passport login  local strategy  http://www.passportjs.org/ 
+I have used mySql and Sequelize ORM (associations are done using ORM ) https://sequelize.org/master/. 
+I have written some basic test cases ( unit and integeration testing ) using Js testing framework Jest  https://jestjs.io/ .
 I have also used eslint module for finding and fixing problems in my code .
-
+UI is not done yet...
 
 Built With :
 
@@ -14,9 +15,9 @@ nodeJs ,
 expressJs ,
 mySql ,
 Sequelize ORM ,
-mocha ,
-chai,
-Postman
+jest,
+Postman  etc
+
 
 
 Getting Started :
@@ -26,11 +27,13 @@ Prerequisites
 npm
 
 Clone the repo
-git clone https://github.com/anzarmalik/CRUD-nodeJs.git
+https://github.com/anzarmalik/CrownKart-Ecommerce.git
 
 Install NPM packages
 
 npm install
+
+Create DataBase ecommerce
 
 type nodemon in terminal
 
@@ -42,6 +45,6 @@ And type: localhost:8000
 
 
 Contact
-Anzar Malik  -  anzarmalikcse.com
+Anzar Malik  -  anzarmalikcse@gmail.com
 
-Project Link: https://github.com/anzarmalik/CRUD-nodeJs.git
+Project Link: https://github.com/anzarmalik/CrownKart-Ecommerce.git

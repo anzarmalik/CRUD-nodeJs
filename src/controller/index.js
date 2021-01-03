@@ -1,19 +1,18 @@
 const {
-  getQuote, insertQuote, deleteQuote, updateQuote,
+  getProductData, getCartByID, insertProductData, deleteCartData, insertProductInCart,
 } = require('../model/use-cases');
 const { logger } = require('../config/logger');
-
 const { errorObj } = require('../config/errors.json');
 
-const get = async (req, res) => {
+const getAll = async (req, res) => {
   try {
-    const getData = await getQuote();
+    const getData = await getProductData();
     if (getData.length > 0) {
       res.status(200);
       res.send(getData);
     } else {
       res.status(500);
-      res.send(errorObj);
+      res.send('Camera store is empty , Only Admin can insert data in Product Camera Store');
     }
   } catch (error) {
     logger.error(error);
@@ -22,14 +21,32 @@ const get = async (req, res) => {
   }
 };
 
-const insert = async (req, res) => {
+const getById = async (req, res) => {
+  try {
+    const getData = await getCartByID(req.user.id);
+    if (getData.length > 0) {
+      res.status(200);
+      res.send(getData);
+    } else {
+      res.status(500);
+      res.send('Cart is empty for this user');
+    }
+  } catch (error) {
+    logger.error(error);
+    res.status(500);
+    res.send(error);
+  }
+};
+
+const insertDataInProduct = async (req, res) => {
   try {
     const data = {
-      quote: req.body.quote || ' qoute missing! ',
-      author: req.body.author || ' author missing! ',
-      tag: req.body.tag || ' tag missing! ',
+      name: req.body.name || ' name missing! ',
+      description: req.body.description || ' description missing! ',
+      price: req.body.price || ' price missing! ',
+      make: req.body.make || ' make date missing! ',
     };
-    const insertData = await insertQuote(data);
+    const insertData = await insertProductData(data);
 
     if (insertData) {
       res.status(200);
@@ -45,14 +62,16 @@ const insert = async (req, res) => {
   }
 };
 
-const destroy = async (req, res) => {
+const insertDataInCart = async (req, res) => {
   try {
-    const { id } = req.query;
-    const deleteData = await deleteQuote(id);
+    const insertData = await insertProductInCart(req.user.id, req.body.productId);
 
-    if (deleteData) {
+    if (insertData && insertData != 1) {
       res.status(200);
-      res.send('Quote deleted successfully');
+      res.send(insertData);
+    } else if (insertData && insertData == 1) {
+      res.status(200);
+      res.send('Quantity Incremented Successfully ...');
     } else {
       res.status(500);
       res.send(errorObj);
@@ -64,19 +83,13 @@ const destroy = async (req, res) => {
   }
 };
 
-const update = async (req, res) => {
+const destroy = async (req, res) => {
   try {
-    const { id } = req.body;
-    const data = {};
-    req.body.hasOwnProperty('author') ? data.author = req.body.author : '';
-    req.body.hasOwnProperty('quote') ? data.quote = req.body.quote : '';
-    req.body.hasOwnProperty('tag') ? data.tag = req.body.tag : '';
+    const deleteData = await deleteCartData(req.user.id, req.query.productId);
 
-    const updateData = await updateQuote(data, id);
-
-    if (updateData) {
+    if (deleteData) {
       res.status(200);
-      res.send(`${updateData[0]}  Quote Updated successfully`);
+      res.send('Data deleted successfully');
     } else {
       res.status(500);
       res.send(errorObj);
@@ -89,5 +102,5 @@ const update = async (req, res) => {
 };
 
 module.exports = {
-  get, insert, destroy, update,
+  getAll, getById, insertDataInProduct, insertDataInCart, destroy,
 };

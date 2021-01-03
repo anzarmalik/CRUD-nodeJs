@@ -1,9 +1,11 @@
-const quoteTable = require('../entities/quote');
+const products = require('../entities/cameraStore');
+const user = require('../entities/users');
+const cart = require('../entities/cart');
 const { logger } = require('../../config/logger');
 
-const getQuote = async () => {
+const getProductData = async () => {
   try {
-    const getData = await quoteTable.findAll({
+    const getData = await products.findAll({
       raw: true,
     });
     if (getData) {
@@ -16,9 +18,29 @@ const getQuote = async () => {
   }
 };
 
-const insertQuote = async (data) => {
+const getCartByID = async (userId) => {
   try {
-    const insertedData = await quoteTable.create(data);
+    const getData = await cart.findAll({
+      where: {
+        userId,
+      },
+      include: [user, products],
+      raw: true,
+    });
+    if (getData) {
+      return getData;
+    }
+    return {};
+  } catch (error) {
+    logger.error(error);
+    return {};
+  }
+};
+
+// only admin can insert data in product table
+const insertProductData = async (data) => {
+  try {
+    const insertedData = await products.create(data);
     if (insertedData) {
       return insertedData;
     }
@@ -29,11 +51,61 @@ const insertQuote = async (data) => {
   }
 };
 
-const deleteQuote = async (id) => {
+const insertProductInCart = async (userId, productId) => {
   try {
-    const deletedData = await quoteTable.destroy({
+    const findProduct = await products.findOne({
       where: {
-        id,
+        id: productId,
+      },
+      raw: true,
+    });
+
+    if (findProduct) {
+      const findInCart = await cart.findOne({
+        where: {
+          userId,
+          productId,
+        },
+        raw: true,
+      });
+      if (findInCart) {
+        const updateQuantity = await cart.update({
+          quantity: findInCart.quantity + 1,
+        }, {
+          where: {
+            userId,
+            productId,
+          },
+          raw: true,
+        });
+        if (updateQuantity[0] == 1) {
+          return 1;
+        }
+        return null;
+      }
+      const insertedData = await cart.create({
+        userId,
+        productId,
+      });
+      if (insertedData) {
+        return insertedData;
+      }
+      return null;
+    }
+    return null;
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+};
+
+// only that user can delete this request in cart which has inserted this product in cart...
+const deleteCartData = async (userId, productId) => {
+  try {
+    const deletedData = await cart.destroy({
+      where: {
+        userId,
+        productId,
       },
     });
     if (deletedData == 1) {
@@ -46,27 +118,6 @@ const deleteQuote = async (id) => {
   }
 };
 
-const updateQuote = async (data, id) => {
-  try {
-    const updatedData = await quoteTable.update(data,
-      {
-        where: {
-          id,
-        },
-      });
-    if (updatedData[0] == 1) {
-      return updatedData;
-    }
-    return null;
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
-};
-
 module.exports = {
-  getQuote,
-  insertQuote,
-  deleteQuote,
-  updateQuote,
+  getProductData, getCartByID, insertProductData, deleteCartData, insertProductInCart,
 };
